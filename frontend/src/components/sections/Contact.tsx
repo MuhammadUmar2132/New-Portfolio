@@ -52,7 +52,7 @@ const contactInfo = [
 const socials = [
   { icon: GithubIcon, label: 'GitHub', href: 'https://github.com', color: 'hover:text-foreground hover:border-foreground/40' },
   { icon: LinkedinIcon, label: 'LinkedIn', href: 'https://linkedin.com', color: 'hover:text-blue-500 hover:border-blue-500/40' },
-  { icon: Mail, label: 'Email', href: 'mailto:bakkahtransport@gmail.com', color: 'hover:text-cyan-500 hover:border-cyan-500/40' },
+  { icon: Mail, label: 'Email', href: 'mrumar4722@gmail.com', color: 'hover:text-cyan-500 hover:border-cyan-500/40' },
 ];
 
 export default function Contact() {

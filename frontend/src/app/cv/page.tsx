@@ -70,10 +70,10 @@ export default function CVPage() {
               </p>
             </div>
             <div style={{ textAlign: 'right', fontSize: '0.85rem', color: '#94a3b8', lineHeight: '1.8', fontFamily: 'Arial, sans-serif' }}>
-              <p>bakkahtransport@gmail.com</p>
+              <p>mrumar4722@gmail.com</p>
               <p>Pakistan — Open to Remote</p>
-              <p>github.com</p>
-              <p>linkedin.com</p>
+              <p>https://github.com/MuhammadUmar2132</p>
+              <p>https://www.linkedin.com/in/muhammad-umar-727907256</p>
             </div>
           </div>
         </div>
