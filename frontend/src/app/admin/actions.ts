@@ -5,6 +5,7 @@ import { redirect } from 'next/navigation';
 import { revalidatePath } from 'next/cache';
 import type { CreateProjectDto } from '@/types/project';
 import type { Meeting } from '@/types/meeting';
+import type { Profile } from '@/types/profile';
 
 const API = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
 
@@ -90,4 +91,32 @@ export async function deleteMeeting(id: string) {
   const res = await authFetch(`/meetings/${id}`, { method: 'DELETE' });
   if (!res.ok) throw new Error('Failed to delete meeting');
   revalidatePath('/admin/meetings');
+}
+
+export async function uploadImage(formData: FormData): Promise<{ url: string }> {
+  const cookieStore = await cookies();
+  const token = cookieStore.get('admin_token')?.value;
+  const res = await fetch(`${API}/uploads`, {
+    method: 'POST',
+    headers: token ? { Authorization: `Bearer ${token}` } : undefined,
+    body: formData,
+  });
+  if (!res.ok) throw new Error('Failed to upload image');
+  return res.json();
+}
+
+export async function getProfile(): Promise<Profile> {
+  const res = await fetch(`${API}/profile`, { cache: 'no-store' });
+  if (!res.ok) throw new Error('Failed to load profile');
+  return res.json();
+}
+
+export async function updateProfile(data: Profile): Promise<Profile> {
+  const res = await authFetch('/profile', {
+    method: 'PATCH',
+    body: JSON.stringify(data),
+  });
+  if (!res.ok) throw new Error('Failed to update profile');
+  revalidatePath('/admin/profile');
+  return res.json();
 }

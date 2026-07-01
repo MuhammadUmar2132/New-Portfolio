@@ -164,7 +164,7 @@ export default function Projects({ initialProjects }: { initialProjects?: Projec
     <section id="projects" className="relative py-24 sm:py-32 xl:py-40 bg-background overflow-hidden" ref={ref}>
       <div className="absolute inset-0 bg-grid opacity-20 dark:opacity-40 pointer-events-none" />
       <div className="absolute top-10 right-10 text-[10rem] md:text-[15rem] font-black text-foreground/5 leading-none select-none pointer-events-none">02</div>
-      <div className="absolute bottom-0 right-0 w-[40rem] h-[30rem] bg-cyan-500/5 rounded-full blur-[100px] pointer-events-none" />
+      <div className="absolute bottom-0 right-0 w/[40rem] h/[30rem] bg-cyan-500/5 rounded-full blur-[100px] pointer-events-none" />
 
       <div className="relative max-w-7xl mx-auto px-6 sm:px-10 lg:px-12">
 

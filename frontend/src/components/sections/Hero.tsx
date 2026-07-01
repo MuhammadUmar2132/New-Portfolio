@@ -1051,6 +1051,10 @@ import { motion, useScroll, useTransform } from 'framer-motion';
 import * as THREE from 'three';
 import { Download, ArrowDown, Mail, ChevronRight, Code, Zap, Cpu, Globe } from 'lucide-react';
 import { GithubIcon, LinkedinIcon } from '@/components/ui/SocialIcons';
+import { getProfile } from '@/lib/api';
+
+const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+const avatarSrc = (url: string) => (url.startsWith('http') ? url : `${API_BASE}${url}`);
 
 const ROLES = ['MERN Stack Developer', 'Next.js Specialist', 'NestJS Backend Dev', 'Full Stack Engineer'];
 
@@ -1058,11 +1062,11 @@ const ROLES = ['MERN Stack Developer', 'Next.js Specialist', 'NestJS Backend Dev
 const floatingTech = [
   { label: 'Next.js', icon: '⚡', color: 'border-cyan-500/30 bg-cyan-500/10' },
   { label: 'React', icon: '⚛️', color: 'border-blue-500/30 bg-blue-500/10' },
-  { label: 'NestJS', icon: '🚀', color: 'border-purple-500/30 bg-purple-500/10' },
+  { label: 'Node.js', icon: '🚀', color: 'border-purple-500/30 bg-purple-500/10' },
   { label: 'MongoDB', icon: '🍃', color: 'border-green-500/30 bg-green-500/10' },
 ];
 
-const stats = [
+const defaultStats = [
   { value: '3+', label: 'Years Experience', icon: <Cpu size={16} /> },
   { value: '20+', label: 'Projects', icon: <Code size={16} /> },
   { value: '15+', label: 'Clients', icon: <Globe size={16} /> },
@@ -1076,6 +1080,26 @@ export default function Hero() {
   const [displayed, setDisplayed] = useState('');
   const [typing, setTyping] = useState(true);
   const [isVisible, setIsVisible] = useState(false);
+  const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
+  const [stats, setStats] = useState(defaultStats);
+
+  useEffect(() => {
+    getProfile()
+      .then((profile) => {
+        setAvatarUrl(profile.avatarUrl ?? null);
+        // About's stats: index 0 = Projects Completed, index 1 = Years Experience — keep Hero in sync with the same admin-set values
+        const projectsCompleted = profile.stats?.[0]?.value;
+        const yearsExperience = profile.stats?.[1]?.value;
+        setStats((prev) =>
+          prev.map((s, i) => {
+            if (i === 0 && yearsExperience) return { ...s, value: yearsExperience };
+            if (i === 1 && projectsCompleted) return { ...s, value: projectsCompleted };
+            return s;
+          }),
+        );
+      })
+      .catch(() => setAvatarUrl(null));
+  }, []);
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -1281,10 +1305,10 @@ export default function Hero() {
       )}
 
       {/* Simple gradient overlay - no heavy animations */}
-      <div className="absolute inset-0 bg-gradient-to-b from-background/0 via-background/50 to-background pointer-events-none" />
+      <div className="absolute inset-0 bg-linear-to-b from-background/0 via-background/50 to-background pointer-events-none" />
       
       {/* Subtle grid - lightweight */}
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808008_1px,transparent_1px),linear-gradient(to_bottom,#80808008_1px,transparent_1px)] bg-[size:60px_60px] pointer-events-none" />
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808008_1px,transparent_1px),linear-gradient(to_bottom,#80808008_1px,transparent_1px)] bg/[size:60px_60px] pointer-events-none" />
 
       <motion.div 
         style={{ y, opacity }}
@@ -1322,7 +1346,7 @@ export default function Hero() {
             >
               <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold leading-[1.1] mb-4 tracking-tight">
                 <span className="text-foreground block">Muhammad</span>
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-500 inline-block">
+                <span className="text-transparent bg-clip-text bg-linear-to-r from-cyan-400 via-blue-500 to-purple-500 inline-block">
                   Umar
                 </span>
               </h1>
@@ -1335,11 +1359,11 @@ export default function Hero() {
               transition={{ duration: 0.4, delay: 0.4 }}
               className="flex items-center gap-3 mb-6"
             >
-              <div className="w-8 h-[2px] bg-gradient-to-r from-cyan-500 to-purple-500" />
+              <div className="w-8 h/[2px] bg-linear-to-r from-cyan-500 to-purple-500" />
               <span className="text-lg md:text-xl text-cyan-600 dark:text-cyan-400 font-mono font-semibold flex items-center gap-2">
                 <span className="inline-block w-1.5 h-1.5 bg-cyan-400 rounded-full animate-pulse" />
                 <span>{displayed}</span>
-                <span className="inline-block w-[2px] h-6 bg-cyan-400 animate-pulse" />
+                <span className="inline-block w/[2px] h-6 bg-cyan-400 animate-pulse" />
               </span>
             </motion.div>
 
@@ -1390,7 +1414,7 @@ export default function Hero() {
             >
               <button
                 onClick={() => document.querySelector('#projects')?.scrollIntoView({ behavior: 'smooth' })}
-                className="px-6 py-3 bg-gradient-to-r from-cyan-500 to-purple-500 text-white font-semibold rounded-lg hover:scale-105 transition-all duration-300 shadow-lg flex items-center gap-2"
+                className="px-6 py-3 bg-linear-to-r from-cyan-500 to-purple-500 text-white font-semibold rounded-lg hover:scale-105 transition-all duration-300 shadow-lg flex items-center gap-2"
               >
                 View Work <ChevronRight size={16} />
               </button>
@@ -1439,7 +1463,7 @@ export default function Hero() {
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.6, delay: 0.3 }}
-            className="relative flex flex-col items-center justify-center order-1 lg:order-2 min-h-[20rem] sm:min-h-[24rem]"
+            className="relative flex flex-col items-center justify-center order-1 lg:order-2 min-h/[20rem] sm:min-h/[24rem]"
           >
             {/* Profile Image Container */}
             <motion.div
@@ -1449,12 +1473,20 @@ export default function Hero() {
               className="relative w-48 h-48 sm:w-56 sm:h-56 md:w-64 md:h-64 lg:w-72 lg:h-72 mb-6"
             >
               {/* Animated Border Gradient */}
-              <div className="absolute inset-[-3px] rounded-full bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-500 animate-spin-slow blur-sm" />
-              <div className="absolute inset-[-2px] rounded-full bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-500 animate-spin-slow" />
+              <div className="absolute inset/[-3px] rounded-full bg-linear-to-r from-cyan-400 via-blue-500 to-purple-500 animate-spin-slow blur-sm" />
+              <div className="absolute inset/[-2px] rounded-full bg-linear-to-r from-cyan-400 via-blue-500 to-purple-500 animate-spin-slow" />
               
               {/* Profile Image */}
               <div className="relative w-full h-full rounded-full overflow-hidden border-2 border-background bg-background/10 backdrop-blur-sm flex items-center justify-center">
-                <span className="text-6xl select-none">👨‍💻</span>
+                {avatarUrl ? (
+                  <img
+                    src={avatarSrc(avatarUrl)}
+                    alt="Muhammad Umar"
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <span className="text-6xl select-none">👨‍💻</span>
+                )}
               </div>
 
               {/* Online Status Badge */}
@@ -1480,8 +1512,8 @@ export default function Hero() {
             </div>
 
             {/* Decorative rings */}
-            <div className="absolute -z-10 w-[20rem] h-[20rem] border border-cyan-500/10 rounded-full animate-spin-slow" />
-            <div className="absolute -z-10 w-[16rem] h-[16rem] border border-purple-500/10 rounded-full animate-spin-slower" />
+            <div className="absolute -z-10 w-[20rem] h/[20rem] border border-cyan-500/10 rounded-full animate-spin-slow" />
+            <div className="absolute -z-10 w-[16rem] h/[16rem] border border-purple-500/10 rounded-full animate-spin-slower" />
           </motion.div>
         </div>
       </motion.div>

@@ -2,13 +2,14 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { LayoutDashboard, Layers, Calendar, LogOut } from 'lucide-react';
+import { LayoutDashboard, Layers, Calendar, User, LogOut } from 'lucide-react';
 import { logout } from '@/app/admin/actions';
 
 const navItems = [
   { href: '/admin/dashboard', label: 'Dashboard', icon: LayoutDashboard },
   { href: '/admin/projects', label: 'Projects', icon: Layers },
   { href: '/admin/meetings', label: 'Meetings', icon: Calendar },
+  { href: '/admin/profile', label: 'Profile', icon: User },
 ];
 
 export default function AdminSidebar({ pendingCount = 0 }: { pendingCount?: number }) {

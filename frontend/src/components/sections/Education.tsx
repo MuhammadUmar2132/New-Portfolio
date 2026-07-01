@@ -9,8 +9,8 @@ const timeline = [
     icon: GraduationCap,
     title: 'Bachelor of Software Engineering',
     place: 'Superior University, Lahore',
-    year: '2023 – 2027',
-    badge: 'In Progress',
+    year: '2022 – 2026',
+    badge: 'Completed',
     badgeColor: 'text-cyan-700 dark:text-cyan-400 bg-cyan-500/10 border-cyan-500/30',
     desc: 'Studying software engineering fundamentals — data structures, algorithms, OOP, databases, and modern web technologies.',
     highlights: ['Data Structures & Algorithms', 'Software Design Patterns', 'Database Systems', 'Web Technologies'],
@@ -20,8 +20,8 @@ const timeline = [
     icon: BookOpen,
     title: 'Full Stack Web Development',
     place: 'Self-taught + Online Platforms',
-    year: '2022 – Present',
-    badge: 'Ongoing',
+    year: '2023',
+    badge: 'Completed',
     badgeColor: 'text-purple-700 dark:text-purple-400 bg-purple-500/10 border-purple-500/30',
     desc: 'Mastered the MERN stack + Next.js + NestJS through hands-on project building, documentation, and structured learning paths.',
     highlights: ['Next.js & React Mastery', 'NestJS Backend Architecture', 'TypeScript Across Stack', 'MongoDB & Mongoose'],
@@ -31,7 +31,7 @@ const timeline = [
     icon: Award,
     title: 'Intermediate — Pre-Engineering',
     place: 'Government College',
-    year: '2021 – 2023',
+    year: '2020 – 2022',
     badge: 'Completed',
     badgeColor: 'text-emerald-700 dark:text-emerald-400 bg-emerald-500/10 border-emerald-500/30',
     desc: 'Completed FSc Pre-Engineering with a strong foundation in mathematics, physics, and analytical thinking.',
@@ -54,7 +54,7 @@ export default function Education() {
     <section id="education" className="relative py-24 sm:py-32 xl:py-40 bg-background overflow-hidden" ref={ref}>
       <div className="absolute inset-0 bg-grid opacity-20 dark:opacity-30 pointer-events-none" />
       <div className="absolute top-10 right-10 text-[10rem] md:text-[15rem] font-black text-foreground/5 leading-none select-none pointer-events-none">05</div>
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[40rem] h-[30rem] bg-purple-500/5 rounded-full blur-[100px] pointer-events-none" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w/[40rem] h/[30rem] bg-purple-500/5 rounded-full blur-[100px] pointer-events-none" />
 
       <div className="relative max-w-6xl mx-auto px-6 sm:px-10 lg:px-12">
 
@@ -80,7 +80,7 @@ export default function Education() {
         {/* Timeline */}
         <div className="relative">
           {/* Vertical connector line */}
-          <div className="absolute left-[3.25rem] md:left-1/2 md:-translate-x-px top-0 bottom-0 w-px bg-gradient-to-b from-cyan-500 via-purple-500 to-transparent opacity-30" />
+          <div className="absolute left/[3.25rem] md:left-1/2 md:-translate-x-px top-0 bottom-0 w-px bg-linear-to-b from-cyan-500 via-purple-500 to-transparent opacity-30" />
 
           <div className="space-y-16">
             {timeline.map((item, i) => {
@@ -156,7 +156,7 @@ export default function Education() {
               <p className="text-muted-foreground text-base font-medium">Expanding my stack with cutting-edge technologies</p>
             </div>
             <div className="flex flex-wrap gap-3">
-              {['Redis', 'GraphQL', 'AWS S3', 'Prisma ORM', 'React Native'].map((t) => (
+              {['PostgreSQL', 'GraphQL', 'AWS S3', 'Prisma ORM', 'React Native'].map((t) => (
                 <span key={t} className="px-5 py-2.5 text-xs font-mono font-bold rounded-xl border border-cyan-500/20 text-cyan-700 dark:text-cyan-400 bg-cyan-500/10 shadow-sm cursor-default">
                   {t}
                 </span>

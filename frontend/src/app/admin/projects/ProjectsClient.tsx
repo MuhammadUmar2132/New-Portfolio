@@ -1,9 +1,12 @@
 'use client';
 
 import { useState, useTransition } from 'react';
-import { Plus, Pencil, Trash2, X, Check } from 'lucide-react';
-import { createProject, updateProject, deleteProject } from '../actions';
+import { Plus, Pencil, Trash2, X, Check, Upload } from 'lucide-react';
+import { createProject, updateProject, deleteProject, uploadImage } from '../actions';
 import type { Project, CreateProjectDto } from '@/types/project';
+
+const API = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+const imageSrc = (url: string) => (url.startsWith('http') ? url : `${API}${url}`);
 
 const CATEGORIES: Project['category'][] = ['fullstack', 'frontend', 'backend', 'mobile', 'other'];
 
@@ -19,6 +22,8 @@ export default function ProjectsClient({ initialProjects }: { initialProjects: P
   const [editId, setEditId] = useState<string | null>(null);
   const [techInput, setTechInput] = useState('');
   const [isPending, startTransition] = useTransition();
+  const [isUploading, setIsUploading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const openCreate = () => { setForm(emptyForm); setEditId(null); setShowForm(true); };
   const openEdit = (p: Project) => {
@@ -33,15 +38,20 @@ export default function ProjectsClient({ initialProjects }: { initialProjects: P
 
   const handleSave = () => {
     if (!form.title || !form.description) return;
+    setError(null);
     startTransition(async () => {
-      if (editId) {
-        const updated = await updateProject(editId, form);
-        setProjects((prev) => prev.map((p) => (p._id === editId ? updated : p)));
-      } else {
-        const created = await createProject(form);
-        setProjects((prev) => [...prev, created]);
+      try {
+        if (editId) {
+          const updated = await updateProject(editId, form);
+          setProjects((prev) => prev.map((p) => (p._id === editId ? updated : p)));
+        } else {
+          const created = await createProject(form);
+          setProjects((prev) => [...prev, created]);
+        }
+        setShowForm(false);
+      } catch {
+        setError('Failed to save project. Please try again.');
       }
-      setShowForm(false);
     });
   };
 
@@ -51,6 +61,22 @@ export default function ProjectsClient({ initialProjects }: { initialProjects: P
       await deleteProject(id);
       setProjects((prev) => prev.filter((p) => p._id !== id));
     });
+  };
+
+  const handleImageSelect = async (file: File | undefined) => {
+    if (!file) return;
+    setError(null);
+    setIsUploading(true);
+    try {
+      const formData = new FormData();
+      formData.append('file', file);
+      const { url } = await uploadImage(formData);
+      setForm((f) => ({ ...f, imageUrl: url }));
+    } catch {
+      setError('Failed to upload image. Please try again.');
+    } finally {
+      setIsUploading(false);
+    }
   };
 
   const addTech = () => {
@@ -189,10 +215,24 @@ export default function ProjectsClient({ initialProjects }: { initialProjects: P
                 />
               </div>
 
-              <input type="url" placeholder="Image URL (optional)" value={form.imageUrl}
-                onChange={(e) => setForm((f) => ({ ...f, imageUrl: e.target.value }))}
-                className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white text-sm placeholder-gray-500 focus:border-cyan-500/50 focus:outline-none"
-              />
+              <div>
+                <label className="flex items-center gap-3 px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-sm text-gray-400 cursor-pointer hover:border-cyan-500/50 transition-colors">
+                  <Upload size={16} />
+                  {isUploading ? 'Uploading...' : form.imageUrl ? 'Change project image' : 'Upload project image (optional)'}
+                  <input
+                    type="file" accept="image/*" className="hidden"
+                    onChange={(e) => handleImageSelect(e.target.files?.[0])}
+                    disabled={isUploading}
+                  />
+                </label>
+                {form.imageUrl && (
+                  <img
+                    src={imageSrc(form.imageUrl)}
+                    alt="Project preview"
+                    className="mt-3 h-28 w-full object-cover rounded-lg border border-white/10"
+                  />
+                )}
+              </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <select
@@ -220,6 +260,8 @@ export default function ProjectsClient({ initialProjects }: { initialProjects: P
                 <span className="text-gray-300 text-sm">Featured Project</span>
               </label>
 
+              {error && <p className="text-sm text-red-400">{error}</p>}
+
               <div className="flex gap-3 pt-2">
                 <button
                   onClick={() => setShowForm(false)}
@@ -229,7 +271,7 @@ export default function ProjectsClient({ initialProjects }: { initialProjects: P
                 </button>
                 <button
                   onClick={handleSave}
-                  disabled={isPending}
+                  disabled={isPending || isUploading}
                   className="flex-1 py-3 bg-cyan-500 hover:bg-cyan-400 text-black font-semibold rounded-lg transition-colors text-sm flex items-center justify-center gap-2 disabled:opacity-60"
                 >
                   {isPending

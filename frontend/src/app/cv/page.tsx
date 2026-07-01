@@ -124,7 +124,7 @@ export default function CVPage() {
                   Lahore, Pakistan
                 </p>
                 <p style={{ fontSize: '0.72rem', color: '#94a3b8', fontFamily: 'Arial, sans-serif', marginTop: '4px' }}>
-                  Currently Enrolled
+                  2022 – 2026 · Completed
                 </p>
               </div>
             </section>
@@ -170,8 +170,8 @@ export default function CVPage() {
                 Passionate Full Stack Developer with 2+ years of experience building high-performance web
                 applications using the MERN stack. Specialized in <strong>Next.js</strong> for SSR/SSG and{' '}
                 <strong>NestJS</strong> for scalable backend APIs. I write clean, typed TypeScript code across
-                the entire stack — from MongoDB schemas to pixel-perfect UIs. Currently studying Software
-                Engineering at Superior University while actively shipping production-grade projects.
+                the entire stack — from MongoDB schemas to pixel-perfect UIs. Graduated with a Bachelor's in Software
+                Engineering from Superior University while actively shipping production-grade projects.
               </p>
             </section>
 

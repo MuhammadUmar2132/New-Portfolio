@@ -1,10 +1,11 @@
 'use client';
 
 import { motion, useInView } from 'framer-motion';
-import { useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Code2, Layers, Cpu, Rocket, MapPin, Calendar, Coffee, Star } from 'lucide-react';
+import { getProfile } from '@/lib/api';
 
-const stats = [
+const defaultStats = [
   { value: '10+', label: 'Projects Completed', icon: Layers, color: 'text-cyan-500 dark:text-cyan-400', bg: 'bg-cyan-500/10 dark:bg-cyan-400/10' },
   { value: '2+', label: 'Years Experience', icon: Calendar, color: 'text-purple-500 dark:text-purple-400', bg: 'bg-purple-500/10 dark:bg-purple-400/10' },
   { value: '15+', label: 'Technologies', icon: Code2, color: 'text-emerald-500 dark:text-emerald-400', bg: 'bg-emerald-500/10 dark:bg-emerald-400/10' },
@@ -30,6 +31,16 @@ const techStack = ['Next.js', 'React', 'TypeScript', 'NestJS', 'Node.js', 'Mongo
 export default function About() {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: '-80px' });
+  const [stats, setStats] = useState(defaultStats);
+
+  useEffect(() => {
+    getProfile()
+      .then((profile) => {
+        if (!profile.stats?.length) return;
+        setStats((prev) => prev.map((s, i) => (profile.stats![i] ? { ...s, ...profile.stats![i] } : s)));
+      })
+      .catch(() => {});
+  }, []);
 
   return (
     <section id="about" className="relative py-24 sm:py-32 xl:py-40 bg-secondary/30 overflow-hidden" ref={ref}>
@@ -42,7 +53,7 @@ export default function About() {
       </div>
 
       {/* Ambient glow */}
-      <div className="absolute top-1/2 left-0 w-[40rem] h-[40rem] bg-cyan-500/5 rounded-full blur-[100px] -translate-y-1/2 pointer-events-none" />
+      <div className="absolute top-1/2 left-0 w/[40rem] h/[40rem] bg-cyan-500/5 rounded-full blur-[100px] -translate-y-1/2 pointer-events-none" />
 
       <div className="relative max-w-7xl mx-auto px-6 sm:px-10 lg:px-12">
 

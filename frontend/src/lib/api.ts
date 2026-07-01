@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { Project, CreateProjectDto } from '@/types/project';
 import { Meeting, CreateMeetingDto } from '@/types/meeting';
+import { Profile } from '@/types/profile';
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
 
@@ -32,3 +33,16 @@ export const deleteMeeting = (id: string) => api.delete(`/meetings/${id}`).then(
 // Auth
 export const adminLogin = (password: string) =>
   api.post<{ access_token: string }>('/auth/login', { password }).then((r) => r.data);
+
+// Profile
+export const getProfile = () => api.get<Profile>('/profile').then((r) => r.data);
+export const updateProfile = (data: Profile) => api.patch<Profile>('/profile', data).then((r) => r.data);
+
+// Uploads
+export const uploadFile = (file: File) => {
+  const formData = new FormData();
+  formData.append('file', file);
+  return api
+    .post<{ url: string }>('/uploads', formData, { headers: { 'Content-Type': 'multipart/form-data' } })
+    .then((r) => r.data);
+};

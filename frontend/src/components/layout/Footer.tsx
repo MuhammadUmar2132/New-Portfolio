@@ -20,9 +20,9 @@ export default function Footer() {
         {/* Links */}
         <div className="flex items-center gap-3">
           {[
-            { icon: GithubIcon, href: 'https://github.com', label: 'GitHub' },
-            { icon: LinkedinIcon, href: 'https://linkedin.com', label: 'LinkedIn' },
-            { icon: Mail, href: 'mailto:bakkahtransport@gmail.com', label: 'Email' },
+            { icon: GithubIcon, href: 'https://github.com/MuhammadUmar2132', label: 'GitHub' },
+            { icon: LinkedinIcon, href: 'https://www.linkedin.com/in/muhammad-umar-727907256/', label: 'LinkedIn' },
+            { icon: Mail, href: 'mrumar4722@gmail.com', label: 'Email' },
           ].map(({ icon: Icon, href, label }) => (
             <a
               key={label}
@@ -38,7 +38,7 @@ export default function Footer() {
         </div>
 
         {/* Copyright */}
-        <p className="text-muted-foreground text-xs text-center md:text-right font-medium leading-relaxed max-w-[250px] md:max-w-none">
+        <p className="text-muted-foreground text-xs text-center md:text-right font-medium leading-relaxed max-w/[250px] md:max-w-none">
           © {new Date().getFullYear()} Muhammad Umar · Built with{' '}
           <span className="text-cyan-600 dark:text-cyan-400 font-bold">Next.js</span> ·{' '}
           <span className="text-purple-600 dark:text-purple-400 font-bold">NestJS</span> ·{' '}

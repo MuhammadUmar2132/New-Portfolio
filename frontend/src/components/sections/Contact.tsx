@@ -14,7 +14,7 @@ const contactInfo = [
   {
     icon: Mail,
     label: 'Email',
-    value: 'bakkahtransport@gmail.com',
+    value: 'mrumar4722@gmail.com',
     href: 'mailto:bakkahtransport@gmail.com',
     color: 'text-cyan-600 dark:text-cyan-400',
     bg: 'bg-cyan-500/10',
@@ -50,8 +50,8 @@ const contactInfo = [
 ];
 
 const socials = [
-  { icon: GithubIcon, label: 'GitHub', href: 'https://github.com', color: 'hover:text-foreground hover:border-foreground/40' },
-  { icon: LinkedinIcon, label: 'LinkedIn', href: 'https://linkedin.com', color: 'hover:text-blue-500 hover:border-blue-500/40' },
+  { icon: GithubIcon, label: 'GitHub', href: 'https://github.com/MuhammadUmar2132', color: 'hover:text-foreground hover:border-foreground/40' },
+  { icon: LinkedinIcon, label: 'LinkedIn', href: 'https://www.linkedin.com/in/muhammad-umar-727907256/', color: 'hover:text-blue-500 hover:border-blue-500/40' },
   { icon: Mail, label: 'Email', href: 'mrumar4722@gmail.com', color: 'hover:text-cyan-500 hover:border-cyan-500/40' },
 ];
 
@@ -96,8 +96,8 @@ export default function Contact() {
       <div className="absolute top-10 right-10 text-[10rem] md:text-[15rem] font-black text-foreground/5 leading-none select-none pointer-events-none">04</div>
       
       {/* Ambient Glow */}
-      <div className="absolute top-0 left-0 w-[40rem] h-[40rem] bg-cyan-500/5 rounded-full blur-[100px] pointer-events-none" />
-      <div className="absolute bottom-0 right-0 w-[40rem] h-[40rem] bg-purple-500/5 rounded-full blur-[100px] pointer-events-none" />
+      <div className="absolute top-0 left-0 w/[40rem] h/[40rem] bg-cyan-500/5 rounded-full blur-[100px] pointer-events-none" />
+      <div className="absolute bottom-0 right-0 w/[40rem] h/[40rem] bg-purple-500/5 rounded-full blur-[100px] pointer-events-none" />
 
       <div className="relative max-w-7xl mx-auto px-6 sm:px-10 lg:px-12">
 
@@ -284,14 +284,14 @@ export default function Contact() {
                     value={form.date}
                     onChange={handleChange}
                     min={minDate}
-                    className="w-full pl-12 pr-4 py-4 bg-secondary border border-border rounded-xl text-foreground text-sm font-medium focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 focus:outline-none transition-all shadow-sm [color-scheme:light] dark:[color-scheme:dark]"
+                    className="w-full pl-12 pr-4 py-4 bg-secondary border border-border rounded-xl text-foreground text-sm font-medium focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 focus:outline-none transition-all shadow-sm scheme-light dark:scheme-dark"
                     required
                   />
                 </div>
 
                 {/* Time slots */}
                 <div>
-                  <p className="text-xs text-muted-foreground font-mono font-bold mb-4 uppercase tracking-[0.1em]">Select Time Slot *</p>
+                  <p className="text-xs text-muted-foreground font-mono font-bold mb-4 uppercase tracking/[0.1em]">Select Time Slot *</p>
                   <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                     {TIME_SLOTS.map((t) => (
                       <button
