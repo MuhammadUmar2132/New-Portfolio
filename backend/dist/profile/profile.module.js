@@ -6,21 +6,20 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.MeetingsModule = void 0;
+exports.ProfileModule = void 0;
 const common_1 = require("@nestjs/common");
 const mongoose_1 = require("@nestjs/mongoose");
-const meetings_controller_1 = require("./meetings.controller");
-const meetings_service_1 = require("./meetings.service");
-const meeting_schema_1 = require("./schemas/meeting.schema");
-const mail_module_1 = require("../mail/mail.module");
-let MeetingsModule = class MeetingsModule {
+const profile_controller_1 = require("./profile.controller");
+const profile_service_1 = require("./profile.service");
+const profile_schema_1 = require("./schemas/profile.schema");
+let ProfileModule = class ProfileModule {
 };
-exports.MeetingsModule = MeetingsModule;
-exports.MeetingsModule = MeetingsModule = __decorate([
+exports.ProfileModule = ProfileModule;
+exports.ProfileModule = ProfileModule = __decorate([
     (0, common_1.Module)({
-        imports: [mongoose_1.MongooseModule.forFeature([{ name: meeting_schema_1.Meeting.name, schema: meeting_schema_1.MeetingSchema }]), mail_module_1.MailModule],
-        controllers: [meetings_controller_1.MeetingsController],
-        providers: [meetings_service_1.MeetingsService],
+        imports: [mongoose_1.MongooseModule.forFeature([{ name: profile_schema_1.Profile.name, schema: profile_schema_1.ProfileSchema }])],
+        controllers: [profile_controller_1.ProfileController],
+        providers: [profile_service_1.ProfileService],
     })
-], MeetingsModule);
-//# sourceMappingURL=meetings.module.js.map
+], ProfileModule);
+//# sourceMappingURL=profile.module.js.map

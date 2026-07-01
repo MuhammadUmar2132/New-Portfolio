@@ -3,13 +3,19 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Meeting, MeetingDocument } from './schemas/meeting.schema';
 import { CreateMeetingDto } from './dto/create-meeting.dto';
+import { MailService } from '../mail/mail.service';
 
 @Injectable()
 export class MeetingsService {
-  constructor(@InjectModel(Meeting.name) private meetingModel: Model<MeetingDocument>) {}
+  constructor(
+    @InjectModel(Meeting.name) private meetingModel: Model<MeetingDocument>,
+    private readonly mailService: MailService,
+  ) {}
 
-  create(dto: CreateMeetingDto) {
-    return new this.meetingModel(dto).save();
+  async create(dto: CreateMeetingDto) {
+    const meeting = await new this.meetingModel(dto).save();
+    void this.mailService.sendMeetingNotification(meeting);
+    return meeting;
   }
 
   findAll() {

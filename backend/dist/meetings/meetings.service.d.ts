@@ -1,9 +1,11 @@
 import { Model } from 'mongoose';
 import { Meeting, MeetingDocument } from './schemas/meeting.schema';
 import { CreateMeetingDto } from './dto/create-meeting.dto';
+import { MailService } from '../mail/mail.service';
 export declare class MeetingsService {
     private meetingModel;
-    constructor(meetingModel: Model<MeetingDocument>);
+    private readonly mailService;
+    constructor(meetingModel: Model<MeetingDocument>, mailService: MailService);
     create(dto: CreateMeetingDto): Promise<import("mongoose").Document<unknown, {}, MeetingDocument, {}, import("mongoose").DefaultSchemaOptions> & Meeting & import("mongoose").Document<import("mongoose").Types.ObjectId, any, any, Record<string, any>, {}> & Required<{
         _id: import("mongoose").Types.ObjectId;
     }> & {

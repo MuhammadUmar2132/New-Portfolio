@@ -17,12 +17,16 @@ const common_1 = require("@nestjs/common");
 const mongoose_1 = require("@nestjs/mongoose");
 const mongoose_2 = require("mongoose");
 const meeting_schema_1 = require("./schemas/meeting.schema");
+const mail_service_1 = require("../mail/mail.service");
 let MeetingsService = class MeetingsService {
-    constructor(meetingModel) {
+    constructor(meetingModel, mailService) {
         this.meetingModel = meetingModel;
+        this.mailService = mailService;
     }
-    create(dto) {
-        return new this.meetingModel(dto).save();
+    async create(dto) {
+        const meeting = await new this.meetingModel(dto).save();
+        void this.mailService.sendMeetingNotification(meeting);
+        return meeting;
     }
     findAll() {
         return this.meetingModel.find().sort({ createdAt: -1 }).exec();
@@ -44,6 +48,7 @@ exports.MeetingsService = MeetingsService;
 exports.MeetingsService = MeetingsService = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, mongoose_1.InjectModel)(meeting_schema_1.Meeting.name)),
-    __metadata("design:paramtypes", [mongoose_2.Model])
+    __metadata("design:paramtypes", [mongoose_2.Model,
+        mail_service_1.MailService])
 ], MeetingsService);
 //# sourceMappingURL=meetings.service.js.map
